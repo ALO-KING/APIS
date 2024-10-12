@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Olvidaste tu Contraseña?</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="Shortcut Icon" type="image/x-icon" href="/static/assets/icons/book.ico" />
+    <link rel="stylesheet" href="/static/css/sweet-alert.css">
+    <link rel="stylesheet" href="/static/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/static/css/normalize.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            text-align: center;
+            padding: 1px;
+        }
+
+        .header img {
+            width: 80px;
+            height: auto;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+        }
+
+        .form-container {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #333;
+            color: white;
+            margin-right: 30px;
+        }
+
+        .form-container h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-container img {
+            width: 600px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .form-container button {
+            width: fit-content;
+            padding: 10px;
+            background-color: #007bff00;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            margin-left: auto;
+            margin-top: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="/static/assets/img/logo-upvt.png" alt="Logo UPVT">
+        <h1><strong> Recupera tu Contraseña </strong></h1>
+    </div>
+
+    <div class="login-container">
+        <div class="form-container">
+            <h4 class="text-center all-tittles">Recupera tu Contraseña</h4>
+             
+                <div class="group-material-login">
+                    <input type="text" id="matricula" name="matricula" class="material-login-control" required maxlength="70" placeholder="Matrícula">
+                </div><br>
+                <div class="group-material-login">
+                    <input type="email" id="correo" name="correo" class="material-login-control" required maxlength="70" placeholder="Correo electrónico">
+                </div><br>
+                <button type="submit" class="btn-login">Enviar enlace de restablecimiento</button>
+            </form>
+        </div>
+        <div class="image-container">
+            <img src="/static/assets/img/library.png" alt="Imagen de Biblioteca">
+        </div>
+    </div>
+</body>
+</html>

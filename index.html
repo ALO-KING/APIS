@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Inicio de sesión</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="Shortcut Icon" type="image/x-icon" href="/static/assets/icons/book.ico" />
+    <link rel="stylesheet" href="/static/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/static/css/normalize.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-1.11.2.min.js"><\/script>')</script>
+    <script src="/static/js/modernizr.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/static/js/main.js"></script>
+    <style>
+        body {
+            background-color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            text-align: center;
+            padding: 1px;
+        }
+
+        .header img {
+            width: 80px;
+            height: auto;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+        }
+
+        .form-container {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #333;
+            color: white;
+            margin-right: 30px;
+        }
+
+        .form-container h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .form-container button {
+            width: fit-content;
+            padding: 10px;
+            background-color: #007bff00;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            margin-left: auto;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-container img {
+            width: 600px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="/static/assets/img/logo-upvt.png" alt="Logo UPVT">
+        <h1><strong> Bienvenido a la Biblioteca Virtual </strong></h1>
+    </div>
+
+    <div class="login-container">
+        <div class="form-container">
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="error-message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+            <p class="text-center" style="margin-top: 17px;">
+                <i class="zmdi zmdi-account-circle zmdi-hc-5x"></i>
+            </p>
+            <h4 class="text-center all-tittles">Inicia sesión con tu cuenta</h4>
+            <form action="{% url 'login' %}" method="post">  <!-- Asegúrate de que esté apuntando a la vista de login -->
+                {% csrf_token %}
+                <div class="group-material-login">
+                    <input type="text" id="numero_trabajador" name="numero_trabajador" class="material-login-control" required maxlength="10" placeholder="Número de Trabajador">
+                </div><br>
+                <div class="group-material-login">
+                    <input type="password" id="password" name="password" class="material-login-control" required maxlength="70" placeholder="Contraseña">
+                </div><br>
+
+                <button type="submit" class="btn-login">Iniciar sesión</button>
+
+                <div class="small-links" style="margin-bottom: 20px;">
+                    <a href="/forgot-password">Olvidaste tu contraseña?</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="image-container">
+            <img src="/static/assets/img/library.png" alt="Imagen de Biblioteca">
+        </div>
+    </div>
+</body>
+</html>
+

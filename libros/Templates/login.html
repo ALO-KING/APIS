@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Inicio de sesión</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="Shortcut Icon" type="image/x-icon" href="/static/assets/icons/book.ico" />
+    <link rel="stylesheet" href="/static/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/static/css/normalize.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-1.11.2.min.js"><\/script>')</script>
+    <script src="/static/js/modernizr.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="https://unpkg.com/qr-scanner/qr-scanner.min.js"></script>
+    <style>
+        body {
+            background-color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            text-align: center;
+            padding: 1px;
+        }
+
+        .header img {
+            width: 80px;
+            height: auto;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+        }
+
+        .form-container {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #333;
+            color: white;
+            margin-right: 30px;
+        }
+
+        .form-container h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .form-container button {
+            width: fit-content;
+            padding: 10px;
+            background-color: #007bff00;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            margin-left: auto;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-container img {
+            width: 600px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="/static/assets/img/logo-upvt.png" alt="Logo UPVT">
+        <h1><strong> Bienvenido a la Biblioteca Virtual </strong></h1>
+    </div>
+
+    <div class="login-container">
+        <div class="form-container">
+            {% for message in messages %}
+                <p class="error-message">{{ message }}</p>
+            {% endfor %}
+
+            <p class="text-center" style="margin-top: 17px;">
+                <i class="zmdi zmdi-account-circle zmdi-hc-5x"></i>
+            </p>
+            <h4 class="text-center all-tittles">Inicia sesión con tu cuenta</h4>
+            <form id="login-form" action="{% url 'login' %}" method="post" onsubmit="return validateAndScanQR()">
+                {% csrf_token %}
+                <div class="group-material-login">
+                    <input type="text" id="identificador" name="identificador" class="material-login-control" required maxlength="10" placeholder="Matrícula o Número de Trabajador">
+                </div><br>
+                <div class="group-material-login">
+                    <input type="password" id="password" name="password" class="material-login-control" required maxlength="70" placeholder="Contraseña">
+                </div><br>
+
+                <button type="submit" class="btn-login">Iniciar sesión</button>
+
+                <div class="small-links" style="margin-bottom: 20px;">
+                    <a href="{% url 'Olvcontraseña' %}">Olvidaste tu contraseña?</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="image-container">
+            <img src="/static/assets/img/library.png" alt="Imagen de Biblioteca">
+        </div>
+    </div>
+
+    <!-- Video oculto para el escaneo del QR -->
+    <video id="qr-video" style="display:none; width: 300px;"></video>
+
+    <script>
+        // Función para validar campos y luego iniciar el escaneo del QR
+        function validateAndScanQR() {
+            const identificador = document.getElementById('identificador').value;
+            const password = document.getElementById('password').value;
+
+            if (!identificador || !password) {
+                alert('Por favor, complete todos los campos.');
+                return false;  // Evitar que el formulario se envíe
+            }
+
+            // Iniciar escaneo QR
+            const video = document.getElementById('qr-video');
+            const qrScanner = new QrScanner(video, result => {
+                console.log('Código QR detectado:', result);
+
+                // Aquí deberías validar el código QR según tus necesidades
+                if (validarQR(result)) {
+                    // Detener el escáner y ocultar el video
+                    qrScanner.stop();
+                    video.style.display = 'none';
+
+                    // Enviar el formulario ahora que el QR es válido
+                    document.getElementById('login-form').submit();
+                } else {
+                    alert('Código QR inválido');
+                }
+            });
+
+            // Mostrar el video y comenzar el escaneo
+            video.style.display = 'block';
+            qrScanner.start();
+
+            // Evitar el envío inmediato del formulario hasta que el QR sea válido
+            return false;
+        }
+
+        // Función para validar el código QR
+        function validarQR(qrCode) {
+            // Aquí implementas la lógica de validación para el QR
+            const usuarios = [
+                { id: 1, rol: 'estudiante', matricula: '12345678' },
+                { id: 2, rol: 'docente', numero_trabajador: '87654321' },
+                // Otros usuarios...
+            ];
+
+            // Aquí verificamos si el QR escaneado coincide con la matrícula o número de trabajador del usuario
+            const user = usuarios.find(u => 
+                (u.rol === 'estudiante' && u.matricula === qrCode) || 
+                (u.rol !== 'estudiante' && u.numero_trabajador === qrCode)
+            );
+
+            if (user) {
+                console.log("Código QR válido:", qrCode);
+                return true;  // El QR es válido
+            } else {
+                console.log("Código QR inválido:", qrCode);
+                return false;  // El QR no es válido
+            }
+        }
+    </script>
+</body>
+</html>

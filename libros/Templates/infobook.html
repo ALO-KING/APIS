@@ -1,0 +1,916 @@
+{% load static %}
+<html lang="es">
+
+<head>
+    <title>Información de libro</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="Shortcut Icon" type="image/x-icon" href="/static/assets/icons/book.ico" />
+    <script src="/static/js/sweet-alert.min.js"></script>
+    <link rel="stylesheet" href="/static/css/sweet-alert.css">
+    <link rel="stylesheet" href="/static/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/static/css/normalize.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="./js/jquery-1.11.2.min.js"><\/script>')</script>
+    <script src="/static/js/modernizr.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/static/js/main.js"></script>
+    <link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
+    <script src="/static/js/SendForm.js"></script>
+    <script src="/static/js/jquery.datetimepicker.js"></script>
+    <style>
+        .header img {
+            width: 80px;
+            height: auto;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="navbar-lateral full-cover-background full-reset">
+        <div class="visible-xs font-movile-menu mobile-menu-button"></div>
+        <div class="full-reset container-menu-movile custom-scroll-navlateral">
+            <div class="logo full-reset all-tittles">
+                <i class="visible-xs zmdi zmdi-close pull-left mobile-menu-button"
+                    style="line-height: 55px; cursor: pointer; padding: 0 10px; margin-left: 7px;"></i>
+                Biblioteca Virtual UPVT
+            </div>
+            <div class="full-reset nav-lateral-divider"></div>
+            <div class="full-reset" style="padding: 10px 0;">
+                <figure>
+                    <img src="/static/assets/img/logo.png" alt="Biblioteca" class="img-responsive center-box"
+                        style="width:55%;">
+                </figure>
+                <p class="text-center" style="padding-top: 15px;">Biblioteca Virtual</p>
+            </div>
+            <div class="nav-lateral-divider full-reset"></div>
+            <div class="full-reset nav-lateral-list-menu">
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'book' %}"><i class="zmdi zmdi-home zmdi-hc-fw"></i>&nbsp;&nbsp; Inicio</a></li>
+                    <li>
+                    </li>
+                    
+                    <li>
+                        <div class="dropdown-menu-button"><i class="zmdi zmdi-assignment-o zmdi-hc-fw"></i>&nbsp;&nbsp; Libros y catálogo <i class="zmdi zmdi-chevron-down pull-right zmdi-hc-fw icon-sub-menu"></i></div>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'bookagregar' %}"><i class="zmdi zmdi-book zmdi-hc-fw"></i>&nbsp;&nbsp; Nuevo libro</a></li>
+                            <li><a href="{% url 'catalog' %}"><i class="zmdi zmdi-bookmark-outline zmdi-hc-fw"></i>&nbsp;&nbsp; Catálogo</a></li>
+                            <li><a href="{% url 'category' %}"><i class="zmdi zmdi-bookmark-outline zmdi-hc-fw"></i>&nbsp;&nbsp; Categoria</a></li>
+                            <li><a href="{% url 'section' %}"><i class="zmdi zmdi-assignment-account zmdi-hc-fw"></i>&nbsp;&nbsp; Programa Educativo</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="dropdown-menu-button"><i class="zmdi zmdi-alarm zmdi-hc-fw"></i>&nbsp;&nbsp; Préstamos y reservaciones <i class="zmdi zmdi-chevron-down pull-right zmdi-hc-fw icon-sub-menu"></i></div>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'loan' %}"><i class="zmdi zmdi-calendar zmdi-hc-fw"></i>&nbsp;&nbsp; Todos los préstamos</a></li>
+                            <li>
+                                <a href="{% url 'loanpending'%}"><i class="zmdi zmdi-time-restore zmdi-hc-fw"></i>&nbsp;&nbsp; Devoluciones pendientes <span class="label label-danger pull-right label-mhover">7</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'loanreservation'%}"><i class="zmdi zmdi-timer zmdi-hc-fw"></i>&nbsp;&nbsp; Reservaciones <span class="label label-danger pull-right label-mhover">7</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="{% url 'report' %}"><i class="zmdi zmdi-trending-up zmdi-hc-fw"></i>&nbsp;&nbsp; Reportes y estadísticas</a></li>
+                    <li><a href="{% url 'advancesettings' %}"><i class="zmdi zmdi-wrench zmdi-hc-fw"></i>&nbsp;&nbsp; Configuraciones avanzadas</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="content-page-container full-reset custom-scroll-containers">
+        <nav class="navbar-user-top full-reset">
+            <ul class="list-unstyled full-reset">
+                <li  class="tooltips-general exit-system-button" data-href="{% url 'login' %}" data-placement="bottom" title="Salir del sistema">
+                    <i class="zmdi zmdi-power"></i>
+                </li>
+                <li style="color:#fff; cursor:default;">
+                    <span class="all-tittles">Admin</span>
+                </li>
+                <figure>
+                   <img src="/static/assets/img/user01.png" alt="user-picture" class="img-responsive img-circle center-box">
+                </figure>
+                <li  class="tooltips-general search-book-button" data-href="searchbook.html" data-placement="bottom" title="Buscar libro">
+                    <i class="zmdi zmdi-search"></i>
+                </li>
+                <li class="mobile-menu-button visible-xs" style="float: left !important;">
+                    <i class="zmdi zmdi-menu"></i>
+                </li>
+                <li class="desktop-menu-button hidden-xs" style="float: left !important;">
+                    <i class="zmdi zmdi-swap"></i>
+                </li>
+                <div class="header">
+                    <img src="/static/assets/img/logo-upvt.png" alt="Logo UPVT">
+                </div>
+            </ul>
+        </nav>
+        <div class="container">
+            <div class="page-header">
+                <h1 class="all-tittles">Sistema bibliotecario <small>Información de libro</small></h1>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <img src="/static/assets/uploads/img/checklist.png" class="img-responsive center-box"
+                        style="max-width: 300px;"> <br>
+                </div>
+                <div class="col-xs-12">
+                    <p class="lead">
+                        Puedes actualizar los datos del libro o eliminarlo si no se encuentran préstamos pendientes o
+                        reservaciones asociados a el.
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" class="text-center lead success"><strong>Datos del libro</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Código de libro</strong></td>
+                                    <td>1234567890</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Categoría</strong></td>
+                                    <td>
+                                        BASE DE DATOS </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Título</strong></td>
+                                    <td>BASE DE DATOS</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Autor</strong></td>
+                                    <td>LUIS LIÑAN</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Año</strong></td>
+                                    <td>2024</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Editorial</strong></td>
+                                    <td>BRUÑO</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Edición</strong></td>
+                                    <td>CALAMEO</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ejemplares</strong></td>
+                                    <td>10</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>En préstamo</strong></td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ubicación</strong></td>
+                                    <td>Pasillo 1</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Estante</strong></td>
+                                    <td>ITI A5</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>PDF visible para los usuarios</strong></td>
+                                    <td>No es visible</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="container-flat-form">
+                            <div class="title-flat-form title-flat-green">Resumen del libro</div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <p class="lead" style="padding: 10px;">Sin resumen</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-flat-form">
+                        <div class="title-flat-form title-flat-blue">Gestión de libro</div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <h2 class="text-center all-tittles"><i class="zmdi zmdi-refresh"></i> &nbsp; actualizar
+                                    datos</h2>
+                                <p class="text-center">
+                                    <button class="btn btn-success btn-update" data-code="I2312412Y1241C123B2N1541"
+                                        data-url="./process/SelectDataBook.php"><i class="zmdi zmdi-refresh"></i>
+                                        &nbsp;&nbsp; Actualizar datos de libro</button>
+                                </p>
+                            </div>
+                            <div class="col-xs-6">
+                                <h2 class="text-center all-tittles"><i class="zmdi zmdi-delete"></i> &nbsp; eliminar
+                                    datos</h2>
+                                <p class="text-center"><button disabled="disabled" class="btn btn-danger"><i
+                                            class="zmdi zmdi-delete"></i> &nbsp;&nbsp; Eliminar Libro</button></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="page-header">
+                                    <h1 class="all-tittles">Datos de préstamos</h1>
+                                </div>
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Ejemplares</th>
+                                            <th class="text-center">En préstamo</th>
+                                            <th class="text-center">Disponibles</th>
+                                            <th class="text-center">Préstamo devueltos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">10</td>
+                                            <td class="text-center">0</td>
+                                            <td class="text-center">10</td>
+                                            <td class="text-center">
+                                                1 </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12" style="padding: 40px 0">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="page-header">
+                                <h1 class="all-tittles">realizar <small>préstamo</small></h1>
+                            </div>
+                            <p class="lead">
+                                Para realizar un préstamo llena los campos correspondientes a el usuario que realizara
+                                el préstamo del libro
+                            </p>
+                            <ul class="nav nav-tabs nav-justified" role="tablist">
+                                
+                                <li role="presentation"><a href="#loan1" aria-controls="home" role="tab"
+                                        data-toggle="tab">Préstamo Estudiante</a></li>
+                                <li role="presentation"><a href="#loan2" aria-controls="profile" role="tab"
+                                        data-toggle="tab">Préstamo Docente</a></li>
+                                <li role="presentation"><a href="#loan3" aria-controls="messages" role="tab"
+                                        data-toggle="tab">Préstamo personal ad.</a></li>
+                            </ul>
+                            <div class="tab-content" style="padding: 50px 0;">
+
+                                <div role="tabpanel" class="tab-pane fade in active" id="loan5">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                                            <form action="" method="POST" autocomplete="off">
+                                                <input type="hidden" name="bookCodePm" value="I2312412Y1241C123B2N1541">
+                                                <div class="group-material">
+                                                    <span>Cantidad de libros que prestará el Alumno  (Máximo 2)</span>
+                                                    <input type="number" class="material-control" value="1"
+                                                        name="CantL">
+                                                </div>
+                                                <div class="group-material">
+                                                    <span>Fecha de solicitud</span>
+                                                    <input type="text" readonly
+                                                        class="material-control StarCalendarInput" required=""
+                                                        name="startDatePm" value="04.10.2024"
+                                                        placeholder="Fecha de solicitud">
+                                                </div>
+                                                <div class="group-material">
+                                                    <span>Fecha de entrega</span>
+                                                    <input type="text" readonly
+                                                        class="material-control EndCalendarInput" required=""
+                                                        name="endDatePm" value="04.10.2024"
+                                                        placeholder="Primero debes seleccionar la fecha de solicitud">
+                                                </div>
+                                                <p class="text-center">
+                                                    <button type="reset" class="btn btn-info"
+                                                        style="margin-right: 20px;"><i class="zmdi zmdi-roller"></i>
+                                                        &nbsp;&nbsp; Limpiar</button>
+                                                    <button type="submit" class="btn btn-primary"><i
+                                                            class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Agregar a
+                                                        préstamos múltiples</button>
+                                                </p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div role="tabpanel" class="tab-pane fade" id="loan1">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                                            <form action="process/AddLoanStudent.php" method="post" class="form_SRCB"
+                                                data-type-form="saveLoan" autocomplete="off">
+                                                <input type="hidden" name="bookCode"
+                                                    value="I2312412Y1241C123B2N1541"><input type="hidden"
+                                                    name="adminCode" value="I09876543Y2018A1N5845"><input type="hidden"
+                                                    name="userType" value="Admin"><input type="hidden" name="userLoan"
+                                                    value="Student">
+                                                <div class="group-material">
+                                                    <span>Cantidad de libros que prestará el estudiante (Máximo
+                                                        10)</span>
+                                                    <input type="number" class="material-control" name="CantL">
+                                                </div>
+                                                <div class="search-box">
+                                                    <i class="zmdi zmdi-search search-box-icon tooltips-general"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Haz clic aquí para buscar el Matricula del estudiante"
+                                                        data-id="formStudents"></i>
+                                                    <div class="search-box-form" id="formStudents">
+                                                        <input type="text" class="material-control inputUsersearch"
+                                                            placeholder="Escribe el nombre del estudiante"
+                                                            data-user="Student" data-res="resultStudents">
+                                                        <div class="search-box-result" id="resultStudents">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="group-material">
+                                                    <input type="text" class="material-control tooltips-general"
+                                                        id="inputStudents" placeholder="Escribe aquí la Matricula del alumno"
+                                                        name="userKey" required="" maxlength="20" data-toggle="tooltip"
+                                                        data-placement="top" title="Matricula de estudiante">
+                                                    <span class="highlight"></span>
+                                                    <span class="bar"></span>
+                                                    <label>Matricula</label>
+                                                </div>
+                                                <div class="group-material">
+                                                    <span>Fecha de solicitud</span>
+                                                    <input type="text" readonly
+                                                        class="material-control StarCalendarInput"
+                                                        data-input="adminStudent" required="" name="startDate"
+                                                        placeholder="Fecha de solicitud">
+                                                </div>
+                                                <div class="group-material">
+                                                    <span>Fecha de entrega</span>
+                                                    <input type="text" readonly
+                                                        class="material-control EndCalendarInput material-input-disabled"
+                                                        id="inputEnd-adminStudent" required="" name="endDate"
+                                                        placeholder="Primero debes seleccionar la fecha de solicitud">
+                                                </div>
+                                                <p class="text-center">
+                                                    <button type="reset" class="btn btn-info"
+                                                        style="margin-right: 20px;"><i class="zmdi zmdi-roller"></i>
+                                                        &nbsp;&nbsp; Limpiar</button>
+                                                    <button type="submit" class="btn btn-primary"><i
+                                                            class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Realizar
+                                                        préstamo</button>
+                                                </p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div role="tabpanel" class="tab-pane fade" id="loan2">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                                            <form action="process/AddLoanTeacher.php" method="post" class="form_SRCB"
+                                                data-type-form="saveLoan" autocomplete="off">
+                                                <input type="hidden" name="bookCode"
+                                                    value="I2312412Y1241C123B2N1541"><input type="hidden"
+                                                    name="adminCode" value="I09876543Y2018A1N5845"><input type="hidden"
+                                                    name="userType" value="Admin">
+                                                <div class="group-material">
+                                                    <span>Cantidad de libros que prestará el docente (Máximo 2)</span>
+                                                    <input type="number" class="material-control" name="CantL">
+                                                </div>
+                                                <div class="search-box">
+                                                    <i class="zmdi zmdi-search search-box-icon tooltips-general"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Haz clic aquí para buscar el Numero de Trabajador del docente"
+                                                        data-id="formTeachers"></i>
+                                                    <div class="search-box-form" id="formTeachers">
+                                                        <input type="text" class="material-control inputUsersearch"
+                                                            placeholder="Escribe el nombre del docente"
+                                                            data-user="Teacher" data-res="resultTeachers">
+                                                        <div class="search-box-result" id="resultTeachers">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="group-material">
+                                                    <input type="text" class="material-control tooltips-general"
+                                                        id="inputTeachers"
+                                                        placeholder="Escribe aquí el número de Numero de Trabajador del docente"
+                                                        name="userKey" pattern="[0-9-]{1,10}" required="" maxlength="10"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Solamente números y guiones, 10 dígitos">
+                                                    <span class="highlight"></span>
+                                                    <span class="bar"></span>
+                                                    <label>Número de Trabajador</label>
+                                                </div>
+                                                <div class="group-material">
+                                                    <span>Fecha de solicitud</span>
+                                                    <input type="text" readonly
+                                                        class="material-control StarCalendarInput"
+                                                        data-input="adminTeacher" required="" name="startDate"
+                                                        placeholder="Fecha de solicitud">
+                                                </div>
+                                                <div class="group-material">
+                                                    <span>Fecha de entrega</span>
+                                                    <input type="text" readonly
+                                                        class="material-control EndCalendarInput material-input-disabled"
+                                                        id="inputEnd-adminTeacher" required="" name="endDate"
+                                                        placeholder="Primero debes seleccionar la fecha de solicitud">
+                                                </div>
+                                                <p class="text-center">
+                                                    <button type="reset" class="btn btn-info"
+                                                        style="margin-right: 20px;"><i class="zmdi zmdi-roller"></i>
+                                                        &nbsp;&nbsp; Limpiar</button>
+                                                    <button type="submit" class="btn btn-primary"><i
+                                                            class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Realizar
+                                                        préstamo</button>
+                                                </p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div role="tabpanel" class="tab-pane fade" id="loan3">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                                            <form action="process/AddLoanUsers.php" method="post" class="form_SRCB"
+                                                data-type-form="saveLoan" autocomplete="off">
+                                                <input type="hidden" name="bookCode"
+                                                    value="I2312412Y1241C123B2N1541"><input type="hidden"
+                                                    name="adminCode" value="I09876543Y2018A1N5845"><input type="hidden"
+                                                    name="userType" value="Admin"><input type="hidden" name="userLoan"
+                                                    value="Personal">
+                                                <div class="search-box">
+                                                    <i class="zmdi zmdi-search search-box-icon tooltips-general"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Haz clic aquí para buscar el Numero de Trabajador del personal ad."
+                                                        data-id="formPersonals"></i>
+                                                    <div class="search-box-form" id="formPersonals">
+                                                        <input type="text" class="material-control inputUsersearch"
+                                                            placeholder="Escribe el nombre del personal ad."
+                                                            data-user="Personal" data-res="resultPersonals">
+                                                        <div class="search-box-result" id="resultPersonals">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="group-material">
+                                                    <input type="text" class="material-control tooltips-general"
+                                                        id="inputPersonals"
+                                                        placeholder="Escribe aquí el número de Trabajador del personal administrativo"
+                                                        name="userKey" pattern="[0-9-]{1,10}" required="" maxlength="10"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Solamente números y guiones, 10 dígitos">
+                                                    <span class="highlight"></span>
+                                                    <span class="bar"></span>
+                                                    <label>Número de Trabajador</label>
+                                                </div>
+                                                <div class="group-material">
+                                                    <span>Fecha de solicitud</span>
+                                                    <input type="text" readonly
+                                                        class="material-control StarCalendarInput"
+                                                        data-input="adminPersonal" required="" name="startDate"
+                                                        placeholder="Fecha de solicitud">
+                                                </div>
+                                                <div class="group-material">
+                                                    <span>Fecha de entrega</span>
+                                                    <input type="text" readonly
+                                                        class="material-control EndCalendarInput material-input-disabled"
+                                                        id="inputEnd-adminPersonal" required="" name="endDate"
+                                                        placeholder="Primero debes seleccionar la fecha de solicitud">
+                                                </div>
+                                                <p class="text-center">
+                                                    <button type="reset" class="btn btn-info"
+                                                        style="margin-right: 20px;"><i class="zmdi zmdi-roller"></i>
+                                                        &nbsp;&nbsp; Limpiar</button>
+                                                    <button type="submit" class="btn btn-primary"><i
+                                                            class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Realizar
+                                                        préstamo</button>
+                                                </p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div role="tabpanel" class="tab-pane fade" id="loan4">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                                            <form action="process/AddLoanVisitor.php" method="post" class="form_SRCB"
+                                                data-type-form="saveLoan" autocomplete="off">
+                                                <input type="hidden" name="bookCode"
+                                                    value="I2312412Y1241C123B2N1541"><input type="hidden"
+                                                    name="adminCode" value="I09876543Y2018A1N5845">
+                                                <div class="group-material">
+                                                    <input type="text" class="material-control tooltips-general"
+                                                        placeholder="Escribe aquí el número de DNI del visitante"
+                                                        name="visitorDUI" pattern="[0-9-]{1,10}" required=""
+                                                        maxlength="10" data-toggle="tooltip" data-placement="top"
+                                                        title="Solamente números y guiones, 10 dígitos">
+                                                    <span class="highlight"></span>
+                                                    <span class="bar"></span>
+                                                    <label>Número de Trabajador</label>
+                                                </div>
+                                                <div class="group-material">
+                                                    <input type="text" class="material-control tooltips-general"
+                                                        placeholder="Escribe aquí el nombre del visitante"
+                                                        name="visitorName" pattern="[a-zA-ZáéíóúÁÉÍÓÚ ]{1,50}"
+                                                        required="" maxlength="50" data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Escribe el nombre del visitante, solamente letras">
+                                                    <span class="highlight"></span>
+                                                    <span class="bar"></span>
+                                                    <label>Nombre</label>
+                                                </div>
+                                                <div class="group-material">
+                                                    <input type="text" class="material-control tooltips-general"
+                                                        placeholder="Escribe aquí la institución de donde visita"
+                                                        name="visitorInstitution" pattern="[a-zA-ZáéíóúÁÉÍÓÚ ]{1,60}"
+                                                        required="" maxlength="60" data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Escribe el nombre de la institución de donde visita">
+                                                    <span class="highlight"></span>
+                                                    <span class="bar"></span>
+                                                    <label>Institución de donde visita</label>
+                                                </div>
+                                                <div class="group-material">
+                                                    <input type="text" class="material-control tooltips-general"
+                                                        placeholder="Escribe aquí el número de teléfono del visitante"
+                                                        name="visitorPhone" pattern="[0-9+]{5,20}" required=""
+                                                        maxlength="20" data-toggle="tooltip" data-placement="top"
+                                                        title="Solamente números y simbolo +">
+                                                    <span class="highlight"></span>
+                                                    <span class="bar"></span>
+                                                    <label>Teléfono</label>
+                                                </div>
+                                                <div class="group-material">
+                                                    <span>Fecha de solicitud</span>
+                                                    <input type="text" readonly
+                                                        class="material-control StarCalendarInput"
+                                                        data-input="adminVisitor" required="" name="startDate"
+                                                        placeholder="Fecha de solicitud">
+                                                </div>
+                                                <div class="group-material">
+                                                    <span>Fecha de entrega</span>
+                                                    <input type="text" readonly
+                                                        class="material-control EndCalendarInput material-input-disabled"
+                                                        id="inputEnd-adminVisitor" required="" name="endDate"
+                                                        placeholder="Primero debes seleccionar la fecha de solicitud">
+                                                </div>
+                                                <p class="text-center">
+                                                    <button type="reset" class="btn btn-info"
+                                                        style="margin-right: 20px;"><i class="zmdi zmdi-roller"></i>
+                                                        &nbsp;&nbsp; Limpiar</button>
+                                                    <button type="submit" class="btn btn-primary"><i
+                                                            class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Realizar
+                                                        préstamo</button>
+                                                </p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="msjFormSend"></div>
+    <div class="modal fade" id="ModalUpdate" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form class="modal-content" action="process/UpdateBook.php" method="POST" id="saveData" autocomplete="off"
+                enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center all-tittles">Actualizar libro</h4>
+                </div>
+                <div class="modal-body" id="ModalData"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success"><i class="zmdi zmdi-refresh"></i> &nbsp;&nbsp; Guardar
+                        cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="ModalHelp">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center all-tittles">ayuda del sistema</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <p class="lead">
+                                    <strong><i class="zmdi zmdi-alert-triangle"></i> &nbsp; ¡Importante! </strong>Para
+                                    desplazarte por esta ventana debes de mantener pulsado el botón izquierdo del
+                                    Mouse o Touchpad en la barra de scroll y desplazarla hacia abajo o hacia arriba
+                                    según donde te encuentres.
+                                    <br><br>
+                                    Para <strong>cerrar la ventana</strong> pulsa el botón <button type="button"
+                                        class="btn btn-primary btn-xs"><i class="zmdi zmdi-thumb-up"></i> &nbsp; De
+                                        acuerdo</button> que se encuentra en la parte inferior.
+                                </p>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <figure>
+                                    <img class="img-responsive center-box" src="/static/assets/img-help/00.png">
+                                </figure>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="page-header">
+                                <h2 class="all-tittles">información del libro <small>datos de libro</small></h2>
+                            </div>
+                            <div class="col-xs-12">
+                                <p class="text-help">
+                                    En esta sección te aparecerá toda la información del libro que has seleccionado
+                                    anteriormente
+                                </p>
+                            </div>
+                            <div class="col-xs-12">
+                                <figure>
+                                    <img class="img-responsive center-box"
+                                        src="/static/assets/img-help/infobook-admin-info.png">
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="page-header">
+                                <h2 class="all-tittles">información del libro <small> actualizar datos de libro</small>
+                                </h2>
+                            </div>
+                            <div class="col-xs-12">
+                                <p class="text-help">
+                                    Haz click en el botón <button class="btn btn-success btn-xs"><i
+                                            class="zmdi zmdi-refresh"></i> &nbsp;&nbsp; Actualizar datos de
+                                        libro</button>
+                                </p>
+                            </div>
+                            <div class="col-xs-12">
+                                <figure>
+                                    <img class="img-responsive center-box"
+                                        src="/static/assets/img-help/infobook-admin-up1.png">
+                                </figure>
+                            </div>
+                            <div class="col-xs-12">
+                                <p class="text-help">
+                                    Se abrirá una ventana con los datos del libro<br>
+                                    1 - Desplázate por la ventana hacia arriba o hacia abajo, manteniendo pulsado el
+                                    botón izquierdo del Mouse o Touchpad sobre la barra de scroll<br>
+                                    2 - Modifica los valores de los campos según los datos que quieras actualizar, luego
+                                    pulsa <button class="btn btn-success btn-xs"><i class="zmdi zmdi-refresh"></i>
+                                        &nbsp;&nbsp; Guardar cambios</button> y confirma la operación para guardar los
+                                    cambios<br>
+                                    3 - Para cancelar la operación y cerrar la ventana pulsa <button
+                                        class="btn btn-default btn-xs">Cancelar</button>
+                                </p>
+                            </div>
+                            <div class="col-xs-12">
+                                <figure class="center-box" style="width: 40%; ">
+                                    <img class="img-responsive center-box"
+                                        src="/static/assets/img-help/infobook-admin-up2.png">
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="page-header">
+                                <h2 class="all-tittles">información del libro <small>eliminar libro</small></h2>
+                            </div>
+                            <div class="col-xs-12">
+                                <p class="text-help">
+                                    Haz click en el botón <button class="btn btn-danger btn-xs"><i
+                                            class="zmdi zmdi-delete"></i> Eliminar Libro</button> y confirma la
+                                    operación
+                                </p>
+                            </div>
+                            <div class="col-xs-12">
+                                <figure>
+                                    <img class="img-responsive center-box"
+                                        src="/static/assets/img-help/infobook-admin-del.png">
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="page-header">
+                                <h2 class="all-tittles">información del libro <small>realizar préstamos</small></h2>
+                            </div>
+                            <div class="col-xs-12">
+                                <p class="text-help">
+                                    Para realizar prestamos debes de llenar los campos del formulario con los datos del
+                                    usuario (docente, estudiante o visitante) que realizará el préstamo.<br>
+                                    1 - Por defecto el sistema cargará el formulario para realizar préstamos de
+                                    estudiantes.<br>
+                                    2 - Para cargar el formulario para realizar préstamos de docentes haz click en
+                                    “Préstamo docente”<br>
+                                    3 - Para cargar el formulario para realizar préstamos de personal administrativo haz
+                                    click en “Préstamo personal ad.”<br>
+                                    4 - Para cargar el formulario para realizar préstamos de visitantes haz click en
+                                    “Préstamo visitante”
+                                </p>
+                            </div>
+                            <div class="col-xs-12">
+                                <figure>
+                                    <img class="img-responsive center-box"
+                                        src="/static/assets/img-help/infobook-admin-loans.png">
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="page-header">
+                                <h2 class="all-tittles">préstamo <small>estudiante</small></h2>
+                            </div>
+                            <div class="col-xs-12">
+                                <p class="text-help">
+                                    Para realizar el préstamo debes de llenar los campos del formulario, luego haz click
+                                    en el botón <button class="btn btn-primary btn-xs"><i class="zmdi zmdi-floppy"></i>
+                                        &nbsp;&nbsp; Realizar préstamo</button> y confirma la operación.<br><br>
+                                    <strong>1 – NIE: </strong> Número de NIE del estudiante que realizará el préstamo
+                                    del libro.<br>
+                                    <strong>2 – Buscar NIE: </strong> Puedes buscar el número de NIE haciendo clic en el
+                                    icono <i class="zmdi zmdi-search"></i> y escribir el nombre del estudiante que
+                                    quieres buscar, a continuación, haz clic en el nombre y automáticamente el número de
+                                    NIE se escribirá en el campo correspondiente.<br>
+                                    <strong>3 – Fecha de solicitud: </strong> Campo de tipo calendar, debes de
+                                    seleccionar la fecha en la que iniciara el préstamo del libro.<br>
+                                    <strong>4 – Fecha de entrega: </strong> Campo de tipo calendar, debes de seleccionar
+                                    la fecha en la que finalizara el préstamo del libro.<br>
+                                    <strong class="text-danger"><i class="zmdi zmdi-alert-triangle"></i> &nbsp;
+                                        ¡Importante! </strong> Recuerda que la fecha de finalización del préstamo no
+                                    puede ser menor que la de inicio.<br>
+                                    <strong>5 – </strong><button class="btn btn-info btn-xs"><i
+                                            class="zmdi zmdi-roller"></i> &nbsp;&nbsp; Limpiar</button> Borra los
+                                    valores que contienen los campos del formulario.<br>
+                                    <strong>6 – </strong><button class="btn btn-primary btn-xs"><i
+                                            class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Realizar préstamo</button>
+                                    Realiza el préstamo del libro, deberá confirmar la operación para hacerlo efectivo.
+                                </p>
+                            </div>
+                            <div class="col-xs-12">
+                                <figure>
+                                    <img class="img-responsive center-box"
+                                        src="/static/assets/img-help/infobook-admin-loan-student.png">
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="page-header">
+                                <h2 class="all-tittles">préstamo <small>docente</small></h2>
+                            </div>
+                            <div class="col-xs-12">
+                                <p class="text-help">
+                                    Para realizar el préstamo debes de llenar los campos del formulario, luego haz click
+                                    en el botón <button class="btn btn-primary btn-xs"><i class="zmdi zmdi-floppy"></i>
+                                        &nbsp;&nbsp; Realizar préstamo</button> y confirma la operación.<br><br>
+                                    <strong>1 – Cantidad de libros: </strong>Introduce la cantidad de libros que
+                                    prestara el docente .<br>
+                                    <strong>2 – Número de DUI: </strong> Número de DUI del docente que realizara el
+                                    préstamo. Máximo 10 dígitos. Ejemplo 00000000-0.<br>
+                                    <strong>3 – Buscar DUI: </strong> Puedes buscar el número de DUI haciendo clic en el
+                                    icono <i class="zmdi zmdi-search"></i> y escribir el nombre del docente que quieres
+                                    buscar, a continuación, haz clic en el nombre y automáticamente el número de DUI se
+                                    escribirá en el campo correspondiente.<br>
+                                    <strong>4 – Fecha de solicitud: </strong> Campo de tipo calendar, debes de
+                                    seleccionar la fecha en la que iniciara el préstamo del libro.<br>
+                                    <strong>5 – Fecha de entrega: </strong> Campo de tipo calendar, debes de seleccionar
+                                    la fecha en la que finalizara el préstamo del libro.<br>
+                                    <strong class="text-danger"><i class="zmdi zmdi-alert-triangle"></i> &nbsp;
+                                        ¡Importante! </strong> Recuerda que la fecha de finalización del préstamo no
+                                    puede ser menor que la de inicio.<br>
+                                    <strong>6 – </strong><button class="btn btn-info btn-xs"><i
+                                            class="zmdi zmdi-roller"></i> &nbsp;&nbsp; Limpiar</button> Borra los
+                                    valores que contienen los campos del formulario.<br>
+                                    <strong>7 – </strong><button class="btn btn-primary btn-xs"><i
+                                            class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Realizar préstamo</button>
+                                    Realiza el préstamo del libro, deberá confirmar la operación para hacerlo efectivo.
+                                </p>
+                            </div>
+                            <div class="col-xs-12">
+                                <figure>
+                                    <img class="img-responsive center-box"
+                                        src="/static/assets/img-help/infobook-admin-loan-teacher.png">
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="page-header">
+                                <h2 class="all-tittles">préstamo <small>personal administrativo</small></h2>
+                            </div>
+                            <div class="col-xs-12">
+                                <p class="text-help">
+                                    Para realizar el préstamo debes de llenar los campos del formulario, luego haz click
+                                    en el botón <button class="btn btn-primary btn-xs"><i class="zmdi zmdi-floppy"></i>
+                                        &nbsp;&nbsp; Realizar préstamo</button> y confirma la operación.<br><br>
+                                    <strong>1 – Número de DUI: </strong> Número de DUI del personal administrativo que
+                                    realizará el préstamo. Máximo 10 dígitos. Ejemplo 00000000-0.<br>
+                                    <strong>2 – Buscar DUI: </strong> Puedes buscar el número de DUI haciendo clic en el
+                                    icono <i class="zmdi zmdi-search"></i> y escribir el nombre del personal
+                                    administrativo que quieres buscar, a continuación, haz clic en el nombre y
+                                    automáticamente el número de DUI se escribirá en el campo correspondiente.<br>
+                                    <strong>3 – Fecha de solicitud: </strong> Campo de tipo calendar, debes de
+                                    seleccionar la fecha en la que iniciara el préstamo del libro.<br>
+                                    <strong>4 – Fecha de entrega: </strong> Campo de tipo calendar, debes de seleccionar
+                                    la fecha en la que finalizara el préstamo del libro.<br>
+                                    <strong class="text-danger"><i class="zmdi zmdi-alert-triangle"></i> &nbsp;
+                                        ¡Importante! </strong> Recuerda que la fecha de finalización del préstamo no
+                                    puede ser menor que la de inicio.<br>
+                                    <strong>5 – </strong><button class="btn btn-info btn-xs"><i
+                                            class="zmdi zmdi-roller"></i> &nbsp;&nbsp; Limpiar</button> Borra los
+                                    valores que contienen los campos del formulario.<br>
+                                    <strong>6 – </strong><button class="btn btn-primary btn-xs"><i
+                                            class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Realizar préstamo</button>
+                                    Realiza el préstamo del libro, deberá confirmar la operación para hacerlo efectivo.
+                                </p>
+                            </div>
+                            <div class="col-xs-12">
+                                <figure>
+                                    <img class="img-responsive center-box"
+                                        src="/static/assets/img-help/infobook-admin-loan-personal.png">
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="page-header">
+                                <h2 class="all-tittles">préstamo <small>visitante</small></h2>
+                            </div>
+                            <div class="col-xs-12">
+                                <p class="text-help">
+                                    Para realizar el préstamo debes de llenar los campos del formulario, luego haz click
+                                    en el botón <button class="btn btn-primary btn-xs"><i class="zmdi zmdi-floppy"></i>
+                                        &nbsp;&nbsp; Realizar préstamo</button> y confirma la operación.<br><br>
+                                    <strong>1 – Número de DUI: </strong> Número de DUI del visitante que realizara el
+                                    préstamo. Máximo 10 dígitos. Ejemplo 00000000-0.<br>
+                                    <strong>2 – Nombre: </strong> Nombre completo del visitante que realizará el
+                                    préstamo.<br>
+                                    <strong>3 – Institución de donde visita: </strong> Nombre de la institución de donde
+                                    proviene el visitante.<br>
+                                    <strong>4 – Teléfono: </strong> Número de teléfono del visitante, este campo acepta
+                                    solamente números, máximo de caracteres 8. Ejemplo: 70000000.<br>
+                                    <strong>5 – Fecha de solicitud: </strong> Campo de tipo calendar, debes de
+                                    seleccionar la fecha en la que iniciara el préstamo del libro.<br>
+                                    <strong>6 – Fecha de entrega: </strong> Campo de tipo calendar, debes de seleccionar
+                                    la fecha en la que finalizara el préstamo del libro.<br>
+                                    <strong class="text-danger"><i class="zmdi zmdi-alert-triangle"></i> &nbsp;
+                                        ¡Importante! </strong> Recuerda que la fecha de finalización del préstamo no
+                                    puede ser menor que la de inicio.<br>
+                                    <strong>7 – </strong><button class="btn btn-info btn-xs"><i
+                                            class="zmdi zmdi-roller"></i> &nbsp;&nbsp; Limpiar</button> Borra los
+                                    valores que contienen los campos del formulario.<br>
+                                    <strong>8 – </strong><button class="btn btn-primary btn-xs"><i
+                                            class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Realizar préstamo</button>
+                                    Realiza el préstamo del libro, deberá confirmar la operación para hacerlo efectivo.
+                                </p>
+                            </div>
+                            <div class="col-xs-12">
+                                <figure>
+                                    <img class="img-responsive center-box"
+                                        src="/static/assets/img-help/infobook-admin-loan-visitor.png">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"><i
+                            class="zmdi zmdi-thumb-up"></i> &nbsp; De acuerdo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer full-reset">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <h4 class="all-tittles">Acerca de</h4>
+                    <p>
+                        Carretera Toluca-Almoloya de Juárez km. 5.6
+                        Santiaguito Tlalcilalcali,
+                        Almoloya de Juárez,
+                        Estado de México C.P. 50904
+                        Tel. (01722) 2766060
+                        
+                        Email: informes@upvt.edu.mx
+                    </p>
+                </div>
+                <div class="col-xs-12 col-sm-6">                
+                    <ul class="list-unstyled">
+                        <div class="header">
+                            <img src="/static/assets/img/logof.png" alt="Logo UPVT">
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright full-reset all-tittles">© 2024 Team Alfa</div>
+    </div>
